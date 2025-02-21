@@ -6,6 +6,11 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "PlayerStatComponent.h"
+<<<<<<< Updated upstream
+=======
+#include "Character/Interfaces/IStaminaObserver.h"
+#include "Character/Animation/PepccineMontagesComponent.h"
+>>>>>>> Stashed changes
 #include "PepCharacter.generated.h"
 
 class UInputMappingContext;
@@ -32,6 +37,9 @@ protected:
 	UCameraComponent* CameraComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UPlayerStatComponent* PlayerStatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Montages")
+	UPepccineMontagesComponent* PepccineMontagesComponent;
 
 	UFUNCTION()
 	void Move(const FInputActionValue& Value);

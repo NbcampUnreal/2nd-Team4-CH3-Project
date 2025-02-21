@@ -5,6 +5,11 @@
 #include "Pepccine/Character/Controller/PepccinePlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
+<<<<<<< Updated upstream
+=======
+#include "CrosshairHUDComponent.h"
+#include "Character/Animation/PepccineMontagesComponent.h"
+>>>>>>> Stashed changes
 #include "GameFramework/SpringArmComponent.h"
 
 APepCharacter::APepCharacter()
@@ -21,7 +26,14 @@ APepCharacter::APepCharacter()
   CameraComp->bUsePawnControlRotation = false;
 
   PlayerStatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStatComponent"));
+<<<<<<< Updated upstream
   
+=======
+
+  CrosshairHUDComponent = CreateDefaultSubobject<UCrosshairHUDComponent>(TEXT("CrosshairHUDComponent"));
+
+  PepccineMontagesComponent = CreateDefaultSubobject<UPepccineMontagesComponent>(TEXT("PepccineMontagesComponent"));
+>>>>>>> Stashed changes
 }
 
 void APepCharacter::BeginPlay()
@@ -220,7 +232,10 @@ void APepCharacter::Reload()
   }
   else
   {
-
+      if (PepccineMontagesComponent)
+      {
+          PepccineMontagesComponent->PlayReloadMontage();
+      }
   }
 }
 
@@ -268,6 +283,44 @@ void APepCharacter::SwapItem(const FInputActionValue& value)
   }
 }
 
+<<<<<<< Updated upstream
+=======
+void APepCharacter::Fire()
+{
+  UE_LOG(LogTemp, Log, TEXT("Fire!"));
+  PepccineMontagesComponent->PlayFireMontage();
+}
+
+void APepCharacter::ZoomIn()
+{
+  UE_LOG(LogTemp, Log, TEXT("ZoomIn!"));
+
+  bIsZooming = true;
+  ToggleCameraView();
+}
+
+void APepCharacter::ZoomOut()
+{
+  UE_LOG(LogTemp, Log, TEXT("ZoomOut!"));
+
+  bIsZooming = false;
+  ToggleCameraView();
+}
+
+void APepCharacter::ToggleCameraView()
+{
+  if (!PlayerController) return;
+
+  bIsFirstPersonView = !bIsFirstPersonView;
+
+  FirstPersonCamera->SetActive(bIsFirstPersonView);
+  ThirdPersonCamera->SetActive(!bIsFirstPersonView);
+}
+#pragma endregion
+
+// Key Mapping
+#pragma region
+>>>>>>> Stashed changes
 void APepCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
   Super::SetupPlayerInputComponent(PlayerInputComponent);
