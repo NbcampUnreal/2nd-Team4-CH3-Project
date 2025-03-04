@@ -7,10 +7,13 @@ void UCharacterSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
+	UE_LOG(LogTemp, Warning, TEXT("Character Save Manager Initialized"));
 	bIsFirstTimeLoaded = true;
+
+	SavePlayerStats(FPlayerStats());
 }
 
-bool UCharacterSaveManager::LoadPlayerStats(FPlayerStats& OutStats, TArray<FStatModifier>& OutModifiers, FPlayerStats& OutTotalAdd, FPlayerStats& OutTotalMul)
+bool UCharacterSaveManager::LoadPlayerStats(FPlayerStats& OutStats)
 {
 	FString SaveSlotName = TEXT("PlayerStatsSlot");
 
@@ -22,9 +25,6 @@ bool UCharacterSaveManager::LoadPlayerStats(FPlayerStats& OutStats, TArray<FStat
 		if (LoadGameInstance)
 		{
 			OutStats = LoadGameInstance->SavedStats;
-			OutModifiers = LoadGameInstance->ActiveModifiers;
-			OutTotalAdd = LoadGameInstance->CurrentTotalAdd;
-			OutTotalMul = LoadGameInstance->CurrentTotalMul;
 
 			UE_LOG(LogTemp, Log, TEXT("플레이어 스탯이 성공적으로 로드되었습니다!"));
 			return true;
@@ -38,7 +38,7 @@ bool UCharacterSaveManager::LoadPlayerStats(FPlayerStats& OutStats, TArray<FStat
 	return false;
 }
 
-void UCharacterSaveManager::SavePlayerStats(const FPlayerStats& InStats, const TArray<FStatModifier>& InModifiers, FPlayerStats InTotalAdd, FPlayerStats InTotalMul)
+void UCharacterSaveManager::SavePlayerStats(const FPlayerStats& InStats)
 {
 	FString SaveSlotName = TEXT("PlayerStatsSlot");
 
@@ -48,9 +48,6 @@ void UCharacterSaveManager::SavePlayerStats(const FPlayerStats& InStats, const T
 	if (!SaveGameInstance) return;
 
 	SaveGameInstance->SavedStats = InStats;
-	SaveGameInstance->ActiveModifiers = InModifiers;
-	SaveGameInstance->CurrentTotalAdd = InTotalAdd;
-	SaveGameInstance->CurrentTotalMul = InTotalMul;
 
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveSlotName, 0);
 	UE_LOG(LogTemp, Log, TEXT("플레이어 스탯이 저장되었습니다."));
